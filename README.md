@@ -1,7 +1,7 @@
 Sistema Integral de Clientes, Servicios y Reservas - Software FJ
 
 Descripcion del Proyecto
-Sistema orientado a objetos desarrollado en Python para la empresa Software FJ. Permite gestionar clientes, servicios (salas, equipos y asesorias) y reservas de manera estable y robusta, implementando un manejo avanzado de excepciones, herencia, polimorfismo y encapsulacion sin el uso de bases de datos[cite: 6, 7].
+Sistema orientado a objetos desarrollado en Python para la empresa Software FJ. Permite gestionar clientes, servicios (salas, equipos y asesorias) y reservas de manera estable y robusta, implementando un manejo avanzado de excepciones, herencia, polimorfismo y encapsulacion sin el uso de bases de datos.
 
 Integrantes del Grupo
 - Sandra Marcela (Lider)
