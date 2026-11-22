@@ -1,22 +1,13 @@
-import logging
+from modelos.entidad_base import EntidadBase, SoftwareFJError
 import re
-from modelos.entidad_base import EntidadBase
-
-# ==========================================
-# EXCEPCIONES PERSONALIZADAS
-# ==========================================
-class SoftwareFJError(Exception):
-    """Excepción base para el sistema de Software FJ."""
-    pass
 
 class ClienteInvalidoError(SoftwareFJError):
-    """Excepción lanzada cuando los datos del cliente no son válidos."""
+    """Excepción específica para errores en los datos del cliente."""
     pass
 
-# ==========================================
-# CLASE CLIENTE (Encapsulación y Validaciones)
-# ==========================================
 class Cliente(EntidadBase):
+    """Clase que representa a un cliente del sistema."""
+
     def __init__(self, cedula: str, nombre: str, correo: str, telefono: str):
         self.cedula = cedula
         self.nombre = nombre
@@ -29,13 +20,9 @@ class Cliente(EntidadBase):
 
     @cedula.setter
     def cedula(self, valor: str):
-        try:
-            if not valor or not str(valor).isdigit() or len(str(valor)) < 6:
-                raise ValueError("La cédula debe contener solo números y tener al menos 6 dígitos.")
-            self._cedula = str(valor)
-        except ValueError as e:
-            logging.error(f"Error de validación en Cédula: {e}")
-            raise ClienteInvalidoError(f"Cédula inválida ({valor}): {e}")
+        if not valor or not valor.isdigit() or len(valor) < 5:
+            raise ClienteInvalidoError(f"Cédula inválida ('{valor}'): debe contener al menos 5 dígitos numéricos.")
+        self._cedula = valor
 
     @property
     def nombre(self) -> str:
@@ -43,13 +30,9 @@ class Cliente(EntidadBase):
 
     @nombre.setter
     def nombre(self, valor: str):
-        try:
-            if not valor or not isinstance(valor, str) or len(valor.strip()) < 3:
-                raise ValueError("El nombre no puede estar vacío y debe tener al menos 3 caracteres.")
-            self._nombre = valor.strip()
-        except ValueError as e:
-            logging.error(f"Error de validación en Nombre: {e}")
-            raise ClienteInvalidoError(f"Nombre inválido ({valor}): {e}")
+        if not valor or len(valor.strip()) < 3:
+            raise ClienteInvalidoError(f"Nombre inválido ('{valor}'): debe tener al menos 3 caracteres.")
+        self._nombre = valor
 
     @property
     def correo(self) -> str:
@@ -58,13 +41,9 @@ class Cliente(EntidadBase):
     @correo.setter
     def correo(self, valor: str):
         patron = r'^[\w\.-]+@[\w\.-]+\.\w+$'
-        try:
-            if not valor or not re.match(patron, valor):
-                raise ValueError("El formato del correo electrónico no es válido.")
-            self._correo = valor
-        except ValueError as e:
-            logging.error(f"Error de validación en Correo: {e}")
-            raise ClienteInvalidoError(f"Correo inválido ({valor}): {e}")
+        if not valor or not re.match(patron, valor):
+            raise ClienteInvalidoError(f"Correo electrónico inválido ('{valor}').")
+        self._correo = valor
 
     @property
     def telefono(self) -> str:
@@ -72,13 +51,9 @@ class Cliente(EntidadBase):
 
     @telefono.setter
     def telefono(self, valor: str):
-        try:
-            if not valor or not str(valor).isdigit() or len(str(valor)) < 7:
-                raise ValueError("El teléfono debe contener solo dígitos y al menos 7 caracteres.")
-            self._telefono = str(valor)
-        except ValueError as e:
-            logging.error(f"Error de validación en Teléfono: {e}")
-            raise ClienteInvalidoError(f"Teléfono inválido ({valor}): {e}")
+        if not valor or not valor.isdigit() or len(valor) < 7:
+            raise ClienteInvalidoError(f"Teléfono inválido ('{valor}'): mínimo 7 dígitos.")
+        self._telefono = valor
 
     def obtener_detalles(self) -> str:
-        return f"Cliente: {self.nombre} | Cédula: {self.cedula} | Correo: {self.correo} | Teléfono: {self.telefono}"
+        return f"Cliente: {self.nombre} | Cédula: {self.cedula} | Correo: {self.correo}"
