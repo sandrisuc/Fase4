@@ -1,12 +1,9 @@
-from modelos.entidad_base import EntidadBase
+from modelos.entidad_base import EntidadBase, SoftwareFJError
 from modelos.cliente import Cliente
 from modelos.servicio import Servicio
 import logging
 
-# Configuración de logs
-logging.basicConfig(level=logging.INFO, format="%(levelname)s:%(name)s:%(message)s")
-
-class ReservaInvalidaError(Exception):
+class ReservaInvalidaError(SoftwareFJError):
     """Excepción personalizada para errores en la gestión de reservas."""
     pass
 
